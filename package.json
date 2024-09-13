@@ -1,0 +1,23 @@
+{
+  "name": "cadastro-quadras",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "ansi-regex": "^4.1.1",
+    "prompt-sync": "^4.2.0",
+    "strip-ansi": "^5.2.0",
+    "undici-types": "^6.19.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.5.4",
+    "@types/prompt-sync": "^4.2.3",
+    "typescript": "^5.6.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
