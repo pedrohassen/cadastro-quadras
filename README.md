@@ -1,5 +1,5 @@
 # UniSENAC
-# Programação Orientação a Objetos
+# Programação Orientada a Objetos
 # Atividade avaliativa
 
 Os alunos devem montar grupos de 3 a 6 pessoas para resolver o problema proposto.
