@@ -1,42 +1,70 @@
+import { Clube } from './Clube';
 import prompt from 'prompt-sync';
-import { Quadra } from './Quadra';
 
 const teclado = prompt();
 
-const quadra = new Quadra();
-
 export class Reserva {
-  nome: string;
-  quadra: string;
-  dia: string;
-  mes: string;
-  horario: string;
-  reservas: Array<string>;
+  clube: Clube;
+  reservas: Array<{ quadra: string, esporte: string, horario: Date, usuario: string }>;
 
-  constructor() {
-    this.nome = '';
-    this.quadra = '';
-    this.dia = '';
-    this.mes = '';
-    this.horario = '';
+  constructor(clube: Clube) {
+    this.clube = clube;
     this.reservas = [];
   }
 
-  reservarQuadra() {
-    this.nome = teclado('Nome: ');
-    if (this.nome !== '') {
-      console.log('Nome inválido. Tente novamente.');
-      this.reservarQuadra();
-    }
-    this.quadra = teclado('Quadra: ');
-    this.dia = teclado('Dia (ex: 01): ');
-    this.mes = teclado('Mes (ex: 01): ');
-    this.horario = teclado('Horário (ex: 14): ');
-    this.reservas.push(`\n\nCliente: ${this.nome}\nQuadra: ${this.quadra}\nDia: ${this.dia}/${this.mes}\nHorário: ${this.horario}:00 - ${(+this.horario) + 1}:00`);
-    console.log('Reserva realizada com sucesso!');
+  verificaReservas(): boolean {
+    return this.reservas.length > 0;
   }
 
-  mostrarReservas() {
-    console.log(`Reservas: ${this.reservas}`);
+  reservarQuadra() {
+    const nomeQuadra = teclado('Digite o nome da quadra: ');
+    const esporte = teclado('Digite o esporte: ');
+    const horarioStr = teclado('Digite o horário (dd/mm/aaaa hh:mm): ');
+    const [dia, mes, ano, hora, minuto] = horarioStr.split(/[/ :]/).map(Number);
+    const horario = new Date(ano, mes - 1, dia, hora, minuto);
+    const username = teclado('Digite seu nome de usuário: ');
+
+    const quadra = this.clube.buscarQuadraPorNomeEsporte(nomeQuadra, esporte);
+
+    if (!quadra) {
+      console.log('Quadra não encontrada.');
+      return;
+    }
+
+    if (!quadra.horarios.some(h => h.getTime() === horario.getTime())) {
+      console.log('Horário indisponível.');
+      return;
+    }
+
+    this.reservas.push({ quadra: nomeQuadra, esporte: esporte, horario: horario, usuario: username });
+    console.log('Reserva realizada com sucesso.');
+  }
+
+  mostrarReservas(usuario?: string) {
+    console.log('Reservas:');
+    this.reservas
+      .filter(reserva => !usuario || reserva.usuario === usuario)
+      .forEach((reserva, index) => {
+        console.log(`${index + 1}. Quadra: ${reserva.quadra}, Esporte: ${reserva.esporte}, Horário: ${reserva.horario.toLocaleDateString('pt-BR')} ${reserva.horario.toLocaleTimeString('pt-BR')}, Usuário: ${reserva.usuario}`);
+      });
+  }
+
+  cancelarReserva() {
+    const username = teclado('Digite seu nome de usuário: ');
+    const idReserva = +teclado('Digite o ID da reserva: ');
+
+    if (isNaN(idReserva) || idReserva < 1 || idReserva > this.reservas.length) {
+      console.log('ID de reserva inválido.');
+      return;
+    }
+
+    const reserva = this.reservas[idReserva - 1];
+    if (reserva.usuario !== username) {
+      console.log('Você não pode cancelar uma reserva que não é sua.');
+      return;
+    }
+
+    this.reservas.splice(idReserva - 1, 1);
+    console.log('Reserva cancelada com sucesso.');
   }
 }

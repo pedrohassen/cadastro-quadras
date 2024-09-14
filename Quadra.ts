@@ -1,46 +1,58 @@
 import prompt from 'prompt-sync';
-import { Clube } from './Clube';
 
 const teclado = prompt();
-
-const clube = new Clube();
 
 export class Quadra {
   nome: string;
   esporte: string;
-  horarios: Array<string>;
+  dias: Array<number>;
+  meses: Array<number>;
+  anos: Array<number>;
+  horarios: Array<Date>;
 
   constructor() {
     this.nome = '';
     this.esporte = '';
+    this.dias = Array.from({ length: 31 }, (_, i) => i + 1); // De 1 a 31
+    this.meses = Array.from({ length: 12 }, (_, i) => i); // De 0 (Janeiro) a 11 (Dezembro)
+    this.anos = [new Date().getFullYear()]; // Ano atual
     this.horarios = [];
   }
 
   cadastroQuadras() {
-    let continua = 's';
-    const nome = teclado('Nome da quadra: ');
-    if (clube.quadras.includes(this)) {
-      console.log('Quadra já existente. Tente novamente.');
-      this.cadastroQuadras();
-    }
-    this.nome = nome;
-    const esporte = teclado('Esporte da quadra: ');
-    this.esporte = esporte;
-    while (continua === 's') {
-      console.log('Lembre-se, a duração de cada horário é de 1 hora.');
-      let horario = +teclado('Horário (ex: 14): ');
-      for (let i = 0; i < this.horarios.length; i++) {
-        if (this.horarios[i] === `\n${horario}:00 - ${(horario + 1)}:00`) {
-          console.log('Horário indisponível. Tente novamente.');
-          horario = +teclado('Horário (ex: 14): ');
-          i = -1;
+    this.nome = teclado('Nome: ');
+    this.esporte = teclado('Esporte: ');
+    console.log(`\nRegistre os horários disponíveis para esta quadra.\n`);
+    this.gerarHorarios();
+  }
+
+  gerarHorarios() {
+    for (let ano of this.anos) {
+      for (let mes of this.meses) {
+        const diasNomes = new Date(ano, mes + 1, 0).getDate(); // Dias no mês
+
+        for (let dia of this.dias) {
+          if (dia > diasNomes) continue; // Ignorar dias inválidos
+
+          for (let hora = 8; hora <= 20; hora++) { // Horário de 8:00 às 21:00
+            const horario = new Date(ano, mes, dia, hora, 0, 0, 0);
+            this.horarios.push(horario);
+          }
         }
       }
-      this.horarios.push(`\n${horario}:00 - ${horario + 1}:00`);
-      continua = teclado('Deseja adicionar mais um horário (S/N)? ').toLowerCase();
     }
-    console.log('\nQuadra cadastrada com sucesso!\n');
+  }
 
-    clube.quadras.push(this);
+  formatarData(data: Date): string {
+    const dia = data.getDate().toString().padStart(2, '0');
+    const mes = (data.getMonth() + 1).toString().padStart(2, '0');
+    const ano = data.getFullYear();
+    const hora = data.getHours().toString().padStart(2, '0');
+    const minuto = data.getMinutes().toString().padStart(2, '0');
+    return `${dia}/${mes}/${ano} ${hora}:${minuto}`;
+  }
+
+  formatarDataParaLista(data: Date): string {
+    return this.formatarData(data);
   }
 }
