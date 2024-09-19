@@ -1,4 +1,5 @@
 import { Quadra } from './Quadra';
+import { daysToMilliseconds } from './utils/Util';
 
 export class Clube {
   quadras: Array<Quadra>;
@@ -26,7 +27,8 @@ export class Clube {
   }
 
   mostraQuadrasDisponiveis(esporte?: string) {
-    const duasSemanas = 14 * 24 * 60 * 60 * 1000;
+    const duasSemanas = daysToMilliseconds(14);
+    // const duasSemanas = 14 * 24 * 60 * 60 * 1000;
     const hoje = new Date();
     const duasSemanasDepois = new Date(hoje.getTime() + duasSemanas);
 
