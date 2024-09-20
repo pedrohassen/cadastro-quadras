@@ -16,16 +16,6 @@ export class Clube {
     return this.quadras.length > 0;
   }
 
-  mostrarQuadras() {
-    console.log('Quadras cadastradas:');
-    this.quadras.forEach((quadra, index) => {
-      console.log(`${index + 1}. Nome: ${quadra.nome}, Esporte: ${quadra.esporte}`);
-      quadra.horarios.forEach(horario => {
-        console.log(`  - Horário: ${quadra.formatarDataParaLista(horario)}`);
-      });
-    });
-  }
-
   mostraQuadrasDisponiveis(esporte?: string) {
     const duasSemanas = daysToMilliseconds(14);
     // const duasSemanas = 14 * 24 * 60 * 60 * 1000;

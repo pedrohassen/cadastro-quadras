@@ -21,20 +21,64 @@ export class Quadra {
 
   cadastroQuadras() {
     this.nome = teclado('Nome: ');
-    this.esporte = teclado('Esporte: ');
-    console.log(`\nRegistre os horários disponíveis para esta quadra.\n`);
-    this.gerarHorarios();
+
+    console.log('\n=== ESCOLHA O ESPORTE ===\n');
+    console.log('1 - Futsal');
+    console.log('2 - Basquete');
+    console.log('3 - Vôlei');
+    console.log('4 - Tênis');
+    console.log('5 - Padel');
+    console.log('6 - Poliesportiva\n');
+
+    const opcao: number = +teclado('Escolha uma opção: ');
+
+    switch (opcao) {
+      case 1:
+        this.esporte = 'Futsal';
+        break;
+
+      case 2:
+        this.esporte = 'Basquete';
+        break;
+      
+      case 3:
+        this.esporte = 'Vôlei';
+        break;
+      
+      case 4:
+        this.esporte = 'Tênis';
+        break;
+
+      case 5:
+        this.esporte = 'Padel';
+        break;
+
+      case 6:
+        this.esporte = 'Poliesportiva';
+        break;
+
+      default:
+        console.log('\nOpção inválida.\n');
+        break;
+    }
+
+    const horaInicial = +teclado('Horário de abertura da quadra: ');
+    const horaFinal = +teclado('Horário de fechamento da quadra: ');
+
+    this.gerarHorarios(horaInicial, horaFinal);
+
+    console.log(`\nQuadra registrada com sucesso.\n`);
   }
 
-  gerarHorarios() {
+  gerarHorarios(horarioInicial: number, horarioFinal: number) {
     for (let ano of this.anos) {
       for (let mes of this.meses) {
-        const diasNomes = new Date(ano, mes + 1, 0).getDate(); // Dias no mês
+        const diasMes = new Date(ano, mes + 1, 0).getDate(); // Dias no mês
 
         for (let dia of this.dias) {
-          if (dia > diasNomes) continue; // Ignorar dias inválidos
+          if (dia > diasMes) continue; // Ignorar dias inválidos
 
-          for (let hora = 8; hora <= 20; hora++) { // Horário de 8:00 às 21:00
+          for (let hora = horarioInicial; hora <= horarioFinal; hora++) { // Horário de X a Y
             const horario = new Date(ano, mes, dia, hora, 0, 0, 0);
             this.horarios.push(horario);
           }
