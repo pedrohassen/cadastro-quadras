@@ -1,7 +1,7 @@
 import prompt from 'prompt-sync';
 import { Quadra } from './Quadra';
 import { Clube } from './Clube';
-import { DataManager } from './saveData';
+import { DataManager } from './Data';
 
 const teclado = prompt();
 const clube = new Clube();

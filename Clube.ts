@@ -97,6 +97,13 @@ export class Clube {
     // Remove o horário reservado
     quadra.horarios = quadra.horarios.filter(h => h.getTime() !== horarioEscolhido.getTime());
 
+    const opcao = teclado('Deseja reservar outro horário? (s/n): ');
+
+    if (opcao.toLowerCase() === 's') {
+      console.log({ registro: `${usuario}. Quadra: ${quadra.nome}, Esporte: ${quadra.esporte}, Data: ${diaEscolhido}, Horário: ${horarioEscolhido.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}` });
+      return this.reservarQuadra(teclado);
+    }
+
     return { registro: `${usuario}. Quadra: ${quadra.nome}, Esporte: ${quadra.esporte}, Data: ${diaEscolhido}, Horário: ${horarioEscolhido.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}` };
   }
 
@@ -106,7 +113,8 @@ export class Clube {
       return;
     }
 
-    console.log('Reservas atuais:');
+    console.log('Reservas atuais:\n');
+    
     this.reservas.forEach((reserva, index) => {
       const dataFormatada = reserva.horario.toLocaleString('pt-BR', {
         day: '2-digit',

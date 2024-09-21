@@ -43,6 +43,7 @@ export class DataManager {
           novaQuadra.horarios = quadraData.horarios.map((h: string) => new Date(h)); // Convertendo de string para Date
           quadras.push(novaQuadra);
         }
+        console.log('Dados sobre quadras carregados com sucesso.');
       }
 
       // Carregando dados de reservas
@@ -60,9 +61,9 @@ export class DataManager {
             });
           }
         }
+        console.log('Dados sobre reservas carregados com sucesso.');
       }
 
-      console.log('Dados carregados com sucesso.');
     } catch (error) {
       console.error('Erro ao carregar os dados:', error);
     }
