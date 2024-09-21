@@ -87,6 +87,15 @@ export class Clube {
     const horarioIndex = +teclado('Escolha o número do horário que deseja reservar: ') - 1;
     const horarioEscolhido = horariosDoDia[horarioIndex];
 
+    // Obtem o valor do horário escolhido em milissegundos
+    const horarioEmMilissegundos = horarioEscolhido.getTime();
+
+    // Adiciona 1 hora (1 hora = 60 minutos * 60 segundos * 1000 milissegundos)
+    const novoHorarioEmMilissegundos = horarioEmMilissegundos + (1 * 60 * 60 * 1000);
+
+    // Converte de volta para um objeto Date
+    const horarioEscolhidoMaisUmaHora = new Date(novoHorarioEmMilissegundos);
+
     if (!horarioEscolhido) {
       console.log('\nHorário indisponível.');
       return null;
@@ -100,11 +109,11 @@ export class Clube {
     const opcao = teclado('Deseja reservar outro horário? (s/n): ');
 
     if (opcao.toLowerCase() === 's') {
-      console.log({ registro: `${usuario}. Quadra: ${quadra.nome}, Esporte: ${quadra.esporte}, Data: ${diaEscolhido}, Horário: ${horarioEscolhido.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}` });
+      console.log({ registro: `${usuario}. Quadra: ${quadra.nome}, Esporte: ${quadra.esporte}, Data: ${diaEscolhido}, Horário: ${horarioEscolhido.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })} - ${horarioEscolhidoMaisUmaHora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}` });
       return this.reservarQuadra(teclado);
     }
 
-    return { registro: `${usuario}. Quadra: ${quadra.nome}, Esporte: ${quadra.esporte}, Data: ${diaEscolhido}, Horário: ${horarioEscolhido.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}` };
+    return { registro: `${usuario}. Quadra: ${quadra.nome}, Esporte: ${quadra.esporte}, Data: ${diaEscolhido}, Horário: ${horarioEscolhido.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })} - ${horarioEscolhidoMaisUmaHora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}` };
   }
 
   listarReservas(): void {
@@ -114,7 +123,7 @@ export class Clube {
     }
 
     console.log('Reservas atuais:\n');
-    
+
     this.reservas.forEach((reserva, index) => {
       const dataFormatada = reserva.horario.toLocaleString('pt-BR', {
         day: '2-digit',
@@ -124,7 +133,21 @@ export class Clube {
         minute: '2-digit',
       });
 
-      console.log(`${index + 1}. Usuário: ${reserva.usuario}, Quadra: ${reserva.quadra.nome}, Esporte: ${reserva.quadra.esporte}, Data: ${dataFormatada}`);
+      // Obtem o valor do horário escolhido em milissegundos
+      const horarioEmMilissegundos = reserva.horario.getTime();
+
+      // Adiciona 1 hora (1 hora = 60 minutos * 60 segundos * 1000 milissegundos)
+      const novoHorarioEmMilissegundos = horarioEmMilissegundos + (1 * 60 * 60 * 1000);
+  
+      // Converte de volta para um objeto Date
+      const horarioEscolhidoMaisUmaHora = new Date(novoHorarioEmMilissegundos);
+
+      const dataFormatadaMaisUmaHora = horarioEscolhidoMaisUmaHora.toLocaleString('pt-BR', {
+        hour: '2-digit',
+        minute: '2-digit',
+      });
+
+      console.log(`${index + 1}. Usuário: ${reserva.usuario}, Quadra: ${reserva.quadra.nome}, Esporte: ${reserva.quadra.esporte}, Data: ${dataFormatada} - ${dataFormatadaMaisUmaHora}`);
     });
   }
 

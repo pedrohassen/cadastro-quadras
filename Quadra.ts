@@ -72,7 +72,7 @@ export class Quadra {
         break;
     }
 
-    const horaInicial = +teclado('Horário de abertura da quadra (Ex.: 9 ou 21): ');
+    const horaInicial = +teclado('Horário de abertura da quadra (6 até 22): ');
 
     if (horaInicial < 6) {
       console.log('\nO clube abre às 6h.');
@@ -84,7 +84,7 @@ export class Quadra {
       return;
     }
 
-    const horaFinal = +teclado('Horário de fechamento da quadra (Ex.: 10 ou 22): ');
+    const horaFinal = +teclado('Horário de fechamento da quadra (7 até 23): ');
 
     if (horaFinal < 7) {
       console.log('\nO clube abre até 6h.');
