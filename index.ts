@@ -1,9 +1,14 @@
 import prompt from 'prompt-sync';
 import { Quadra } from './Quadra';
 import { Clube } from './Clube';
+import { DataManager } from './Data';
 
 const teclado = prompt();
 const clube = new Clube();
+
+const { quadras, reservas } = DataManager.loadData();
+clube.quadras = quadras;
+clube.reservas = reservas;
 
 while (true) {
   console.log('\n====== BEM VINDO ======\n');
@@ -17,6 +22,7 @@ while (true) {
   const opcao: number = +teclado('Escolha uma opção: ');
 
   if (opcao === 0) {
+    DataManager.saveData(clube.quadras, clube.reservas);
     break;
   }
 
