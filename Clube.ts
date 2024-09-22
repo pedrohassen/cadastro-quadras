@@ -39,7 +39,7 @@ export class Clube {
 
     const usuario = teclado('Digite seu nome: ');
 
-    console.log('\nAviso: Reservas apenas para o próximo 14 dias.\n');
+    console.log('\nAviso: Reservas apenas para os próximos 14 dias.\n');
 
     // Mostra as quadras disponíveis
     console.log('Quadras disponíveis:\n');
