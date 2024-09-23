@@ -101,6 +101,11 @@ export class Clube {
       return null;
     }
 
+    if (horarioIndex < 0 || horarioIndex >= horariosDoDia.length) {
+      console.log('\nHorário inválido.');
+      return null;
+    }
+
     // Adiciona a reserva
     this.reservas.push({ quadra, usuario, horario: horarioEscolhido });
     // Remove o horário reservado
