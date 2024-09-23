@@ -85,6 +85,7 @@ export class Clube {
     });
 
     const horarioIndex = +teclado('Escolha o número do horário que deseja reservar: ') - 1;
+
     const horarioEscolhido = horariosDoDia[horarioIndex];
 
     // Obtem o valor do horário escolhido em milissegundos
