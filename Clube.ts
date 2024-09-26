@@ -109,7 +109,8 @@ export class Clube {
 
     // Adiciona a reserva
     this.reservas.push({ quadra, usuario, horario: horarioEscolhido });
-    // Remove o horário reservado
+    
+    // Remove o horário reservado da lista de horários disponíveis
     quadra.horarios = quadra.horarios.filter(h => h.getTime() !== horarioEscolhido.getTime());
 
     const opcao = teclado('Deseja reservar outro horário? (s/n): ');
